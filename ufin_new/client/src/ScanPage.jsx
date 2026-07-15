@@ -21,7 +21,7 @@ const ScanPage = () => {
   const fetchCrateDetails = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/crate/${crateId}`);
+      const res = await axios.get(`https://ufin-final-1.onrender.com/api/crate/${crateId}`);
       if (res.data.success) {
         setCrateData(res.data.crate);
       }
@@ -37,7 +37,7 @@ const ScanPage = () => {
     setUpdating(true);
     setMessage('');
     try {
-      const res = await axios.post('http://localhost:5000/api/crate/scan', {
+      const res = await axios.post('https://ufin-final-1.onrender.com/api/crate/scan', {
         crateId,
         status
       });

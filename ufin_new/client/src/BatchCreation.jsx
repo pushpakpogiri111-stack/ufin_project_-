@@ -19,7 +19,7 @@ const BatchCreation = ({ onBatchCreated }) => {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.post('http://localhost:5000/api/batch/create', {
+      const res = await axios.post('https://ufin-final-1.onrender.com/api/batch/create', {
         ...formData,
         totalQuantity: Number(formData.totalQuantity),
         crateSize: Number(formData.crateSize)

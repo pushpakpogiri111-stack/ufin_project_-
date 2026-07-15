@@ -98,7 +98,7 @@ const Chatbot = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/chat', {
+      const res = await axios.post('https://ufin-final-1.onrender.com/api/chat', {
         message: userMessage,
         language: language
       });

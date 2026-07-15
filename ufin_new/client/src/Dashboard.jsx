@@ -25,7 +25,7 @@ const Dashboard = () => {
 
   const fetchAnalytics = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/complaint/analytics');
+      const response = await axios.get('https://ufin-final-1.onrender.com/api/complaint/analytics');
       if (response.data.success) {
         setAnalytics(response.data.analytics);
       }

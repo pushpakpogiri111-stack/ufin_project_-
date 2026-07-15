@@ -29,7 +29,7 @@ const Report = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/complaint', {
+      const response = await axios.post('https://ufin-final-1.onrender.com/api/complaint', {
         farmerId,
         message,
         rating

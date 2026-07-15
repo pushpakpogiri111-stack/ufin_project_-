@@ -38,7 +38,7 @@ const FarmerDashboard = ({ onClose }) => {
       let farmerItems = [];
       try {
         const token = localStorage.getItem('token');
-        const mineRes = await fetch('/api/produce/mine', {
+        const mineRes = await fetch('https://ufin-final-1.onrender.com/api/produce/mine', {
           headers: token ? { Authorization: `Bearer ${token}` } : {}
         });
         const mineData = await mineRes.json();
@@ -64,7 +64,7 @@ const FarmerDashboard = ({ onClose }) => {
 
       // Fetch QR Code
       try {
-        const qrRes = await fetch(`/api/complaint/qr/${farmerId}`);
+        const qrRes = await fetch(`https://ufin-final-1.onrender.com/api/complaint/qr/${farmerId}`);
         const qrData = await qrRes.json();
         if (qrData.success) {
           setQrImage(qrData.qrCode);
@@ -76,7 +76,7 @@ const FarmerDashboard = ({ onClose }) => {
       // Fetch farmer-specific stats from backend (scoped to this farmer)
       try {
         const token = localStorage.getItem('token');
-        const dashRes = await fetch('/api/dashboard/stats', {
+        const dashRes = await fetch('https://ufin-final-1.onrender.com/api/dashboard/stats', {
           headers: token ? { Authorization: `Bearer ${token}` } : {}
         });
         const dashData = await dashRes.json();
@@ -147,7 +147,7 @@ const FarmerDashboard = ({ onClose }) => {
     if (!window.confirm('Remove this item from your listings? This cannot be undone.')) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/produce/${productId}`, {
+      const res = await fetch(`https://ufin-final-1.onrender.com/api/produce/${productId}`, {
         method: 'DELETE',
         headers: token ? { Authorization: `Bearer ${token}` } : {}
       });

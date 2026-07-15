@@ -15,13 +15,13 @@ const BatchDetails = ({ batchId, onBack }) => {
   const fetchDetails = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/batch/${batchId}`);
+      const res = await axios.get(`https://ufin-final-1.onrender.com/api/batch/${batchId}`);
       if (res.data.success) {
         setData(res.data);
         // Fetch QRs for all crates
         const qrMap = {};
         for (const crate of res.data.crates) {
-          const qrRes = await axios.get(`http://localhost:5000/api/crate/qr/${crate.crateId}`);
+          const qrRes = await axios.get(`https://ufin-final-1.onrender.com/api/crate/qr/${crate.crateId}`);
           if (qrRes.data.success) {
             qrMap[crate.crateId] = qrRes.data.qrCode;
           }
