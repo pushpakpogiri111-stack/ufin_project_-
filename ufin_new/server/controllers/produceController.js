@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Produce = require('../models/Produce');
 const { validationResult } = require('express-validator');
+const { getAllProduce: getMockProduce, addProduce: addMockProduce } = require('../mockProduce');
 
 const processSmartLogic = (produce) => {
   // Decision Logic
@@ -62,7 +63,7 @@ const addProduce = async (req, res) => {
       const type = (produceData.type || '').toLowerCase();
       
       if (name.includes('tomato')) {
-        produceData.imageUrl = 'https://images.unsplash.com/photo-1546470427-e9e826f9e5dc?q=80&w=1000&auto=format&fit=crop';
+        produceData.imageUrl = 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=1000&auto=format&fit=crop';
       } else if (name.includes('banana')) {
         produceData.imageUrl = 'https://images.unsplash.com/photo-1571771019784-3ff35f4f4277?q=80&w=1000&auto=format&fit=crop';
       } else if (name.includes('potato')) {
@@ -74,6 +75,12 @@ const addProduce = async (req, res) => {
       } else {
         produceData.imageUrl = 'https://images.unsplash.com/photo-1518843875459-f738682238a6?q=80&w=2042&auto=format&fit=crop';
       }
+    }
+
+    if (mongoose.connection.readyState !== 1) {
+      const farmerId = req.user?._id || req.user?.id || '1000';
+      const produce = addMockProduce(produceData, String(farmerId));
+      return res.status(201).json({ success: true, source: 'mock', produce });
     }
 
     let produce = new Produce(produceData);
@@ -95,7 +102,12 @@ const addProduce = async (req, res) => {
     res.status(201).json({ success: true, produce });
   } catch (error) {
     console.error('addProduce error', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    const farmerId = req.user?._id || req.user?.id || '1000';
+    const produce = addMockProduce({
+      ...req.body,
+      imageUrl: req.body.imageUrl || 'https://images.unsplash.com/photo-1518843875459-f738682238a6?q=80&w=2042&auto=format&fit=crop'
+    }, String(farmerId));
+    res.status(201).json({ success: true, source: 'mock', produce });
   }
 };
 
@@ -104,6 +116,11 @@ const Farmer = require('../models/Farmer');
 const getAllProduce = async (req, res) => {
   try {
     const { status = 'available' } = req.query;
+    if (mongoose.connection.readyState !== 1) {
+      const mockProduce = getMockProduce().filter(item => status === 'all' || item.status === status);
+      return res.json({ success: true, source: 'mock', produce: mockProduce });
+    }
+
     let query = {};
     if (status !== 'all') {
       query.status = status;
@@ -144,7 +161,8 @@ const getAllProduce = async (req, res) => {
     res.json({ success: true, produce: enrichedProduce });
   } catch (error) {
     console.error('getAllProduce error', error);
-    res.status(500).json({ message: 'Server error' });
+    const mockProduce = getMockProduce().filter(item => req.query.status === 'all' || item.status === (req.query.status || 'available'));
+    res.json({ success: true, source: 'mock', produce: mockProduce });
   }
 };
 

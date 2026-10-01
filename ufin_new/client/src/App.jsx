@@ -29,6 +29,7 @@ import ScanPage from './ScanPage';
 import BatchCreation from './BatchCreation';
 import BatchDetails from './BatchDetails';
 import Chatbot from './Chatbot';
+import { getProductImage } from './utils/images';
 
 // Fix for Leaflet markers
 import L from 'leaflet';
@@ -108,7 +109,19 @@ function App() {
     try {
       const res = await produceApi.getAll();
       if (res.data.success) {
-        setProduceList(res.data.produce);
+        const normalizedProduce = (res.data.produce || []).map((item) => {
+          const basePrice = Number(item.basePrice) || 0;
+          const predictedPrice = Number(item.predictedPrice);
+          return {
+            ...item,
+            name: String(item.name || item.type || 'Fresh Produce'),
+            type: String(item.type || 'produce'),
+            quantity: Number(item.quantity) || 0,
+            basePrice,
+            predictedPrice: Number.isFinite(predictedPrice) ? predictedPrice : basePrice
+          };
+        });
+        setProduceList(normalizedProduce);
       }
     } catch (error) {
       console.error('Fetch error', error);
@@ -426,12 +439,12 @@ function App() {
           {/* Hero Section */}
       <header className="pt-40 pb-20 px-6 relative overflow-hidden">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-bold mb-6"
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className="text-lg md:text-xl font-medium italic text-text-secondary mb-6"
           >
-            <Sparkles className="w-4 h-4 fill-primary" /> {t("ai_powered_waste_reduction", { defaultValue: "AI-Powered Market Intelligence" })}
-          </motion.div>
+            "Better choices today, a stronger harvest tomorrow."
+          </motion.p>
           <motion.h1 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="text-6xl md:text-8xl font-bold font-display text-text-primary mb-6 tracking-tight"
@@ -494,6 +507,7 @@ function App() {
               {filteredProduce.map((item, idx) => {
                 const rec = getAiRecommendation(item);
                 const trust = item.farmerTrust || { rating: 4.0, trustScore: 80, badge: 'Trusted Farmer' };
+                const productImage = item.imageUrl || getProductImage(item.name, item.type);
                 
                 return (
                   <motion.div
@@ -516,13 +530,7 @@ function App() {
 
                     {/* Image Section */}
                     <div className="relative h-56 overflow-hidden">
-                      {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                          <BrainCircuit className="w-12 h-12 text-primary/40" />
-                        </div>
-                      )}
+                      <img src={productImage} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                       
                       {/* Trust Badge */}
                       <div className="absolute top-4 left-4">

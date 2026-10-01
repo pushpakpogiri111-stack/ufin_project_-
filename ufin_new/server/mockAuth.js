@@ -8,7 +8,7 @@ const mockUsers = [
     _id: '1000',
     name: 'Demo Farmer',
     email: 'farmer@demo.com',
-    password: '$2a$10$N9qo8uLOickgx2ZMRZoMye', // demo123 hashed
+    password: '$2a$10$Zvdyn7JzewwLM9P08luENea42PUc3F7I.0Oq4BdBrLKog0oFltum2', // demo123 hashed
     role: 'farmer',
     location: { type: 'Point', coordinates: [77.5946, 12.9716] }
   },
@@ -16,7 +16,7 @@ const mockUsers = [
     _id: '1001',
     name: 'Demo Buyer',
     email: 'buyer@demo.com',
-    password: '$2a$10$N9qo8uLOickgx2ZMRZoMye', // demo123 hashed
+    password: '$2a$10$Zvdyn7JzewwLM9P08luENea42PUc3F7I.0Oq4BdBrLKog0oFltum2', // demo123 hashed
     role: 'buyer',
     location: { type: 'Point', coordinates: [77.5946, 12.9716] }
   }

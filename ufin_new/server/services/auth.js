@@ -20,9 +20,12 @@ const authMiddleware = async (req, res, next) => {
           user = await User.findById(decoded.id);
         }
       } catch (dbError) {
-        // If DB not available, fall back to mock users
+        // Use the in-memory users when the database is unavailable.
+      }
+
+      if (!user) {
         const { mockUsers } = require('../mockAuth');
-        user = mockUsers.find(u => u._id === decoded.id);
+        user = mockUsers.find(u => u._id === String(decoded.id));
       }
       
       if (!user) {

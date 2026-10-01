@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173,
     host: true,
     proxy: {
-      '/api': 'https://ufin-final-1.onrender.com'
+      '/api': 'http://localhost:5000'
     }
   }
 });

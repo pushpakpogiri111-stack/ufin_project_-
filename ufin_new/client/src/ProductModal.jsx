@@ -8,6 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import PriceGraph from './PriceGraph';
 import { aiApi } from './api';
+import { getProductImage } from './utils/images';
 
 const ProductModal = ({ product, isOpen, onClose, onBuyNow }) => {
   const { t } = useTranslation();
@@ -73,6 +74,7 @@ const ProductModal = ({ product, isOpen, onClose, onBuyNow }) => {
   if (!isOpen || !product) return null;
 
   const suggestion = aiPrediction ? getSuggestionBadge(aiPrediction.suggestion) : null;
+  const productImage = product.imageUrl || getProductImage(product.name, product.type);
 
   return (
     <AnimatePresence>
@@ -93,7 +95,7 @@ const ProductModal = ({ product, isOpen, onClose, onBuyNow }) => {
           {/* Header */}
           <div className="relative h-64 overflow-hidden">
             <img
-              src={product?.imageUrl || 'https://images.unsplash.com/photo-1518843875459-f738682238a6?q=80&w=2042&auto=format&fit=crop'}
+              src={productImage}
               alt={product?.name || 'Product'}
               className="w-full h-full object-cover"
             />

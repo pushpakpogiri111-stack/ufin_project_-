@@ -1,17 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
-
 :root {
   --primary: #10b981;
   --primary-hover: #059669;
-  --secondary: #3b82f6;
+  --secondary: #22c55e;
   --accent: #f59e0b;
-  --background: #0f172a;
-  --surface: #1e293b;
-  --surface-hover: #334155;
+  --background: #111412;
+  --surface: #1b211d;
+  --surface-hover: #2a332d;
   --border: rgba(255, 255, 255, 0.08);
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;

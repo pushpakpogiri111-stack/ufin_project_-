@@ -5,7 +5,7 @@ export const getProductImage = (productName, productType) => {
 
   // Specific product images
   if (name.includes('tomato')) {
-    return 'https://images.unsplash.com/photo-1546470427-e9e826f9e5dc?q=80&w=1000&auto=format&fit=crop';
+    return 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=1000&auto=format&fit=crop';
   }
   if (name.includes('banana')) {
     return 'https://images.unsplash.com/photo-1571771019784-3ff35f4f4277?q=80&w=1000&auto=format&fit=crop';

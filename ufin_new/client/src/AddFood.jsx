@@ -51,7 +51,7 @@ const AddFood = ({ onSuccess }) => {
     if (n === 'mango' || n.includes('mango')) return 'https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=1000&auto=format&fit=crop';
     if (n === 'apple' || n.includes('apple')) return 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1000&auto=format&fit=crop';
     if (n === 'banana' || n.includes('banana')) return 'https://images.unsplash.com/photo-1571771019784-3ff35f4f4277?q=80&w=1000&auto=format&fit=crop';
-    if (n === 'tomato' || n.includes('tomato')) return 'https://images.unsplash.com/photo-1546470427-e9e826f9e5dc?q=80&w=1000&auto=format&fit=crop';
+    if (n === 'tomato' || n.includes('tomato')) return 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=1000&auto=format&fit=crop';
     if (n === 'potato' || n.includes('potato')) return 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=1000&auto=format&fit=crop';
     if (n === 'onion' || n.includes('onion')) return 'https://images.unsplash.com/photo-1620574387735-3624d75b2dbc?q=80&w=1000&auto=format&fit=crop';
     if (n === 'carrot' || n.includes('carrot')) return 'https://images.unsplash.com/photo-1582515073490-39981397c445?q=80&w=1000&auto=format&fit=crop';

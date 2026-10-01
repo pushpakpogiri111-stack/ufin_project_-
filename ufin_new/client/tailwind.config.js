@@ -6,12 +6,12 @@ module.exports = {
       colors: {
         // Background colors
         background: {
-          DEFAULT: '#0b0f19', // deep dark
+          DEFAULT: '#111412', // charcoal dark
           light: '#ffffff',
         },
         // Surface colors
         surface: {
-          DEFAULT: '#111827', // dark gray cards
+          DEFAULT: '#1b211d', // charcoal cards
           light: '#f8fafc',
         },
         // Primary colors

@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const { validationResult } = require('express-validator');
 const { register: mockRegister, login: mockLogin } = require('../mockAuth');
 
@@ -11,10 +12,10 @@ try {
   console.log('User model not available, using mock auth');
 }
 
-const useMock = process.env.USE_MOCK_DB === 'true' || process.env.USE_MOCK_DB === '1';
+const shouldUseMock = () => process.env.USE_MOCK_DB === 'true' || process.env.USE_MOCK_DB === '1' || mongoose.connection.readyState !== 1;
 
 const register = async (req, res) => {
-  if (!User || useMock) {
+  if (!User || shouldUseMock()) {
     return mockRegister(req, res);
   }
 
@@ -39,12 +40,12 @@ const register = async (req, res) => {
     res.status(201).json({ token, user: { id: user._id, name, email, role, location } });
   } catch (error) {
     console.error('register error', error);
-    res.status(500).json({ message: 'Server error' });
+    return mockRegister(req, res);
   }
 };
 
 const login = async (req, res) => {
-  if (!User || useMock) {
+  if (!User || shouldUseMock()) {
     return mockLogin(req, res);
   }
 
@@ -60,7 +61,7 @@ const login = async (req, res) => {
     res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: user.role, location: user.location } });
   } catch (error) {
     console.error('login error', error);
-    res.status(500).json({ message: 'Server error' });
+    return mockLogin(req, res);
   }
 };
 

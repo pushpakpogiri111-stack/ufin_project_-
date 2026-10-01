@@ -5,6 +5,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const dns = require('dns');
 
+// Fail fast when MongoDB is unavailable so controllers can use development fallbacks.
+mongoose.set('bufferCommands', false);
+
 // Force DNS to use Google/Cloudflare to bypass local DNS issues with Atlas SRV records
 if (!process.env.DNS_OVERRIDE_DISABLED) {
   try {
@@ -107,11 +110,9 @@ const seedDemoData = async () => {
       });
     }
 
-    // Create demo produce
-    const farmerUser = await User.findOne({ email: 'farmer@demo.com' });
-    const farmerId = farmerUser ? farmerUser._id : new mongoose.Types.ObjectId();
-
-    const demoProduce = [
+    // Demo products are intentionally not seeded; users add fresh products through the app.
+    const demoProduce = [];
+    /*
       {
         farmer: farmerId,
         name: 'Organic Tomatoes',
@@ -127,7 +128,7 @@ const seedDemoData = async () => {
         sellerPhone: '+91-9876543210',
         sellerEmail: 'farmer@demo.com',
         location: { type: 'Point', coordinates: [78.4867, 17.3850] }, // Hyderabad, Telangana
-        imageUrl: 'https://images.unsplash.com/photo-1546470427-e9e826f9e5dc?q=80&w=1000&auto=format&fit=crop',
+        imageUrl: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=1000&auto=format&fit=crop',
         basePrice: 25,
         pricingType: 'per_kg',
         alerts: ['📈 Demand rising in your area']
@@ -233,12 +234,13 @@ const seedDemoData = async () => {
         alerts: ['🥬 Fresh harvest today']
       }
     ];
+    */
 
     for (const produceData of demoProduce) {
       await Produce.create(produceData);
     }
 
-    console.log('✅ Demo data seeded successfully');
+    console.log('✅ Product seeding skipped; the product list starts empty.');
   } catch (error) {
     console.error('Error seeding demo data:', error);
   }
@@ -268,6 +270,7 @@ const start = async () => {
         // Seed demo data
         await seedDemoData();
       } catch (err) {
+        process.env.USE_MOCK_DB = 'true';
         console.log('📝 MongoDB not available - using in-memory mock auth for development');
       }
     } else {
